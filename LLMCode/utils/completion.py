@@ -2,6 +2,7 @@ import openai
 import LLMCode.cfg.completion_params as completion_params
 import multiprocessing
 from . import ANSI_CODE
+from .logger import LOGGER
 
 
 def run_with_timeout(target_function, args=None, timeout=30):
@@ -14,7 +15,7 @@ def run_with_timeout(target_function, args=None, timeout=30):
         result_value = result.get(timeout=timeout)
         return result_value
     except multiprocessing.TimeoutError:
-        print(
+        LOGGER.info(
             f"{ANSI_CODE['yellow']}\r⚠ The completion could not be done. {target_function} response lasted more than {timeout} seconds, which is the limit."
         )
         pool.terminate()

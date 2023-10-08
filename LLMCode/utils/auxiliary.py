@@ -13,6 +13,7 @@ from .file_utils import (
 )
 from .completion import get_completion
 from . import ANSI_CODE, DOC_FUNCTION, SUFFIX, LANGUAGE, TQDM_BAR_FORMAT
+from .logger import LOGGER
 from tqdm import tqdm
 
 
@@ -30,7 +31,7 @@ def format_code(
     if path.is_dir():
         for i, l in enumerate(languages):
             if l not in DOC_FUNCTION.keys():
-                print(
+                LOGGER.info(
                     f"{ANSI_CODE['yellow']}\r⚠ Language {l} not yet supported for docummentation. The {l} scripts will not be docummented!"
                 )
                 languages_filtered.pop(i)
@@ -42,14 +43,14 @@ def format_code(
         exclude.extend(list_submodule_directories(path))
         if exclude:
             exc_str = " ".join(exclude)
-            print(
+            LOGGER.info(
                 f"{ANSI_CODE['yellow']}\r⚠ Excluding the following files from the document process: {exc_str}"
             )
     elif path.is_file() and (
         (path.suffix not in SUFFIX.values())
         or LANGUAGE[path.suffix] not in DOC_FUNCTION.keys()
     ):
-        print(
+        LOGGER.info(
             f"{ANSI_CODE['red']}\r❌ The script {path} can not be documented. Programming language with extension {path.suffix} not supported."
         )
         return None
@@ -92,7 +93,7 @@ def _apply_to_scripts(
     if root_path.is_dir():
         files = [py_file.resolve() for py_file in root_path.glob(f"**/*{extension}")]
         if not files:
-            print(
+            LOGGER.info(
                 f"{ANSI_CODE['yellow']}\r⚠ No scripts were found for {LANGUAGE[extension]} in the folder {root_path}"
             )
             return None
@@ -127,7 +128,7 @@ def _apply_to_scripts(
             )
             function_to_execute(c_file, stop_flag=stop_flag, *args, **kwargs)
             if stop_flag.is_set():
-                print(
+                LOGGER.info(
                     f"{ANSI_CODE['yellow']}\r Terminated by user. Program was documenting script {c_file}"
                 )
                 break

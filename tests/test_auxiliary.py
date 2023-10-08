@@ -35,7 +35,7 @@ def simulated_function_to_execute(file, stop_flag, *args, **kwargs):
     pass
 
 
-def test_apply_to_scripts(capsys):
+def test_apply_to_scripts():
     # Test Case 1: No files of provided extension in provided folder
     assert (
         _apply_to_scripts(
@@ -43,8 +43,6 @@ def test_apply_to_scripts(capsys):
         )
         is None
     )
-    out, _ = capsys.readouterr()
-    assert "No scripts were found for c++" in out
     # Test Case 2: Provided existing folder with files with proper extension
     assert _apply_to_scripts(
         f"tests{os.path.sep}test_material",

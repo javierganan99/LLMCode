@@ -6,6 +6,7 @@ from tokenize import tokenize
 from token import tok_name
 import os
 import platform
+from .logger import LOGGER
 
 
 def parse_python(fn):
@@ -130,7 +131,7 @@ def list_submodule_directories(project_directory):
             submodule_name = Path(submodule_path).name
             submodule_directories.append(submodule_name)
     except subprocess.CalledProcessError as e:
-        print(f"{ANSI_CODE['reset']}\rNo git submodules found in the project")
+        LOGGER.info(f"{ANSI_CODE['reset']}\rNo git submodules found in the project")
     return submodule_directories
 
 
@@ -153,24 +154,24 @@ def copy_path(path, add_to_parent="_formatted"):
     if path.is_file() and path.suffix in SUFFIX.values():
         try:
             shutil.copy(path, formatted_path)
-            print(
+            LOGGER.info(
                 f"{ANSI_CODE['reset']}\rFile {path.name} copied and documented version is to be created: {formatted_base_name}"
             )
         except FileExistsError as e:
-            print(f"{ANSI_CODE['yellow']}\r⚠ The file {path} already exists.")
+            LOGGER.info(f"{ANSI_CODE['yellow']}\r⚠ The file {path} already exists.")
     elif path.is_file() and path.suffix not in SUFFIX.values():
-        print(
+        LOGGER.info(
             f"{ANSI_CODE['red']}\r❌ The script {path} can not be documented. Programming language not supported yet."
         )
         return None
     elif path.is_dir():
         try:
             shutil.copytree(path, formatted_path)
-            print(
+            LOGGER.info(
                 f"{ANSI_CODE['reset']}\rDirectory {path.name} copied and formatted version created: {formatted_base_name}"
             )
         except FileExistsError as e:
-            print(
+            LOGGER.info(
                 f"{ANSI_CODE['yellow']}\r⚠ The folder {formatted_path} already exists."
             )
     return formatted_path

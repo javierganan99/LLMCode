@@ -29,7 +29,7 @@ def format_code(path, exclude, languages, stop_flag):
     for i, l in enumerate(languages):
         if l not in DOC_FUNCTION.keys():
             print(
-                f"{ANSI_CODE['yellow']}\r⚠ Language {l} not yet supported for docummentation. The {l} scripts will not be docummented!"
+                f"{ANSI_CODE['yellow']}\r Language {l} not yet supported for docummentation. The {l} scripts will not be docummented!"
             )
             languages_filtered.pop(i)
     if Path(path).is_dir():
@@ -37,12 +37,12 @@ def format_code(path, exclude, languages, stop_flag):
         for e in exclude:
             assert is_file_in_directory(
                 path, e
-            ), f"{ANSI_CODE['red']}\r❌ Check the name of the folder {e} that you want to exclude because it is not included in {path}, you could have make a typo!"
+            ), f"{ANSI_CODE['red']}\r Check the name of the folder {e} that you want to exclude because it is not included in {path}, you could have make a typo!"
         exclude.extend(list_submodule_directories(path))
         if exclude:
             exc_str = " ".join(exclude)
             print(
-                f"{ANSI_CODE['yellow']}\r⚠ Excluding the following files from the document process: {exc_str}"
+                f"{ANSI_CODE['yellow']}\r Excluding the following files from the document process: {exc_str}"
             )
     new_path = (
         copy_path(path, add_to_parent=vars(custom_params)["surname"])

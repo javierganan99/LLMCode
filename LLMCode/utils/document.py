@@ -8,6 +8,7 @@ import re
 import LLMCode.cfg.custom_params as custom_params
 from . import ANSI_CODE
 from threading import Event
+from .logger import LOGGER
 
 
 def doc_element(element, prompt, get_completion):
@@ -33,7 +34,7 @@ def doc_python_file(
     try:
         parsed = parse_python(script)
         if parsed is None:
-            print(
+            LOGGER.info(
                 f"{ANSI_CODE['red']}\r❌Check the script {script}. It is not properly encoded and can not be documented."
             )
             return None
@@ -42,7 +43,7 @@ def doc_python_file(
             script_content,
         ) = extract_functions_and_classes_from_python_tokens(parsed)
     except Exception as e:
-        print(
+        LOGGER.info(
             f"{ANSI_CODE['red']}\r❌Check the script {script}. The following error occurred: {e}"
         )
 
@@ -63,7 +64,7 @@ def doc_python_file(
             ):  # Filter the elements to document
                 continue
             if stop_flag.is_set():
-                print(
+                LOGGER.info(
                     f"{ANSI_CODE['yellow']}\r Ended during the documentation of script {script}. Interrupted by SIGINT.{ANSI_CODE['reset']}"
                 )
                 return
@@ -74,7 +75,7 @@ def doc_python_file(
                         previous_docstring and not overwrite
                     ):  # If element had docstring and we do not want to change it
                         continue
-                    print(
+                    LOGGER.info(
                         f"{ANSI_CODE['reset']}\r\n🤖 Generating docstring for {e_type} {e_name}...\n\n"
                     )
                 else:
@@ -84,9 +85,9 @@ def doc_python_file(
                     new_docstring = re.search(r'"""(.*?)"""', result, re.DOTALL)
                     if new_docstring:
                         new_docstring = new_docstring.group(1)
-                        print(f"{ANSI_CODE['reset']}\r{new_docstring}\n\n\n")
+                        LOGGER.info(f"{ANSI_CODE['reset']}\r{new_docstring}\n\n\n")
                     else:
-                        print(
+                        LOGGER.info(
                             f"{ANSI_CODE['yellow']}\r⚠ No docstring generated for {e_type} {e_name}..."
                         )
                         script_content = add_msg(
@@ -110,7 +111,7 @@ def doc_python_file(
                             script_content,
                         )
                 else:  # Error in the query
-                    print(
+                    LOGGER.info(
                         f"{ANSI_CODE['red']}\r❌ Error in the query for {e_type} {e_name}! No response provided..."
                     )
                     script_content = add_msg(

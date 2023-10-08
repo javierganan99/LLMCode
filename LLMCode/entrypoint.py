@@ -2,6 +2,7 @@ import sys
 import argparse
 import signal
 from threading import Event
+from .utils import LOGGER
 from .utils.auxiliary import format_code
 from LLMCode.cfg.custom_params import exclude, languages, elements2doc
 
@@ -45,7 +46,7 @@ def main():
     stop_flag = Event()
     args = parse_args()
     if args.path is None:
-        print(
+        LOGGER.info(
             "Missing path to format: Please provide the path to be documented. It can be an script or a folder containing scripts at any level."
         )
         sys.exit(0)
