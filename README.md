@@ -1,15 +1,15 @@
-<div style="display: flex; flex-direction: row; align-items: center;">
-  <div style="flex: 1;">
-    <img src="LLMCode/assets/images/logo.png" alt="LLMCode" style="max-width: 100%; height: auto;">
-  </div>
-  <div style="flex: 2; font-size: 16px; padding: 10px;">
-    <h1>LLMCode</h1>
-      LLMCode is a tool designed to streamline code documentation using Language Models (LLMs).
-      </br>
-      </br>
-      LLMCode is a user-friendly utility that harnesses the capabilities of Language Models to automatically generate code documentation. Say goodbye to the time-consuming and often tedious task of writing documentation by hand. With this tool, you can effortlessly self-updating code documentation, and then just review the work of LLMCode.
-  </div>
-</div>
+<h1></h1>
+<img align="left" src="LLMCode/assets/images/logo.png" alt="LLMCode" width="300" height: auto;">
+
+# LLMCode
+LLMCode is a tool designed to streamline code documentation using Language Models (LLMs).
+  </br>
+  </br>
+It is a user-friendly utility that harnesses the capabilities of Language Models to automatically generate code documentation. Say goodbye to the time-consuming and often tedious task of writing documentation by hand. With this tool, you can effortlessly self-updating code documentation, and then just review the work of LLMCode.
+</br>
+</br>
+</br>
+
 
 ## 📋 Features
 
