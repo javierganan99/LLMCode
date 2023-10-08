@@ -127,7 +127,13 @@ def list_submodule_directories(project_directory):
         # Split the output into lines and extract submodule directory names
         output_lines = result.stdout.strip().split("\n")
         for line in output_lines:
-            _, submodule_path, _ = line.split()
+            try:
+                _, submodule_path, _ = line.split()
+            except:
+                LOGGER.info(
+                    f"{ANSI_CODE['reset']}\rNo git submodules found in the project"
+                )
+                return submodule_directories
             submodule_name = Path(submodule_path).name
             submodule_directories.append(submodule_name)
     except subprocess.CalledProcessError as e:
@@ -186,7 +192,11 @@ def ensure_folder_exist(path):
         separated[0] = os.path.sep + separated[0]
     exists = True
     for f in range(len(separated)):
-        path = os.path.join(*separated[: f + 1])
+        path = (
+            os.path.sep.join(separated[: f + 1])
+            if f > 0
+            else (separated[0] + os.path.sep)
+        )
         if not os.path.exists(path):
             os.mkdir(path)
             exists = False
