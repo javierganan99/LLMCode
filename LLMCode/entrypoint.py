@@ -2,7 +2,7 @@ import sys
 import argparse
 import signal
 from threading import Event
-from .utils import LOGGER
+from .utils.logger import LOGGER
 from .utils.auxiliary import format_code
 from LLMCode.cfg.custom_params import exclude, languages, elements2doc
 
