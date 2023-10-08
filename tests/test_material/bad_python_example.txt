@@ -1,0 +1,4 @@
+import re
+
+def function_bad():
+ $print("Bad to include $")

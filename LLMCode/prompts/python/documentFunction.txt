@@ -1,0 +1,24 @@
+Please, provide the docstring for the following FUNCTION in the following DOCSTRING FORMAT (that is the Google format for Python docstrings). If the FUNCTION already has a docstring, check that it is correct and change what do you think it is convenient.
+If the DOCSTRING FORMAT is not the provided one, change the format of the docstring.
+
+FUNCTION:
+	!<QUERY COMPLETION>!
+
+DOCSTRING FORMAT:
+	"""
+	Summary of the function.
+	
+	More extensive description that allows for its complete understanding.
+
+	Args:
+		param1 (type1 | type2): Description of param1.
+		param2 (type, optional): Description of param2.
+		param3 (type): Description of param3 (default is default_paramerer_value).
+		...
+
+	Returns:
+		type: Description of the return param.
+	"""
+
+I want you to generate as output only the docstring (in the specified format) and between triple quotes, without more text.
+The output is intended to be copied directly to a code script.

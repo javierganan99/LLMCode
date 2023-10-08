@@ -1,0 +1,33 @@
+Please, provide the docstring for the following CLASS in the following DOCSTRING FORMAT (that is the Google format for Python docstrings). If the CLASS already has a description comment, check that it is correct and change what do you think it is convenient.
+If the FORMAT is not the provided one, change the format of the docstring.
+
+CLASS:
+	!<QUERY COMPLETION>!
+
+DOCSTRING FORMAT:
+	"""
+	Summary of the class.
+	
+	More extensive description that allows for its complete understanding.
+
+	Args:
+		param1 (type): Description of parma1.
+		param2 (type): Description of parma2.
+		...
+		
+	Attributes:
+		attr1 (type): Description of the attribute1.
+		attr2 (type): Description of the attribute1.
+		...
+		
+	Methods:
+		method1(param1, param2=default_value): Description of what the method1 does.
+		add_pie_chart(param1, param2, param3): Description of what the method2 does.
+		...
+		
+	Private Methods:
+		The same format that the used for the Methods.
+	"""
+
+I want you to generate as output only the docstring (in the specified format) and between triple quotes, without more text.
+The output is intended to be copied directly to a code script.
