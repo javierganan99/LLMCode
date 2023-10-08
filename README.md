@@ -1,4 +1,4 @@
-</br>
+<div></div>
 <img align="left" src="LLMCode/assets/images/logo.png" alt="LLMCode" width="300" height: auto;">
 
 # LLMCode
