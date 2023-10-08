@@ -1,5 +1,5 @@
 <div></div>
-<img align="left" src="LLMCode/assets/images/logo.png" alt="LLMCode" width="300" height: auto;">
+<img align="left" src="LLMCode/assets/images/logo.png" alt="LLMCode" width="350" height: auto;">
 
 # LLMCode
 LLMCode is a tool designed to streamline code documentation using Language Models (LLMs).
