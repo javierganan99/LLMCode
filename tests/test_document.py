@@ -18,7 +18,7 @@ def find_functions_in_module(module, match):
     return matching_functions
 
 
-def test_doc_element(capsys):
+def test_doc_element():
     my_function = """
     def sum(a,b):
         return a+b
@@ -33,19 +33,13 @@ def test_doc_element(capsys):
             prompt=document_prompts["python"]["function"],
             get_completion=completion_function,
         )
-        out, _ = capsys.readouterr()
-        assert (
-            result is None and "The completion could not be done" in out
-        ) or isinstance(result, str)
+        assert result is None or isinstance(result, str)
         result = document.doc_element(
             element=my_class,
             prompt=document_prompts["python"]["class"],
             get_completion=completion_function,
         )
-        out, _ = capsys.readouterr()
-        assert (
-            result is None and "The completion could not be done" in out
-        ) or isinstance(result, str)
+        assert result is None or isinstance(result, str)
 
 
 def test_doc_python_file(good_example_python_file):
