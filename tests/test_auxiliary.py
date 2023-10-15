@@ -1,7 +1,6 @@
 import pytest
 import os
 from LLMCode.utils import auxiliary
-from LLMCode.utils.completion import get_completion
 from LLMCode.utils.auxiliary import _apply_to_scripts
 
 
