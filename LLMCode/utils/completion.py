@@ -14,9 +14,7 @@ def run_with_timeout(target_function, args=None, timeout=30):
     try:
         result_value = result.get(timeout=timeout)
         return result_value
-    except (
-        Exception
-    ) as e:  # multiprocessing.TimeoutError or openai.error.ServiceUnavailableError:
+    except Exception as e:
         if isinstance(e, multiprocessing.TimeoutError):
             LOGGER.info(
                 f"{ANSI_CODE['yellow']}\r⚠ The completion could not be done. {target_function} response lasted more than {timeout} seconds, which is the limit."
