@@ -117,7 +117,7 @@ In addition to the CLI and Python-supported options, you can further customize L
 
 You have the flexibility to create your custom completion functions, even with your own LLMs. To integrate your custom completion function, follow these two steps:
 
-1. Define your 'get_completion' function. You should do so in the **<path/to/this/repo/LLMCode/utils/completion.py>** file. Here's an example of how the 'get_completion_openai' function is defined:
+1. Define your `get_completion` function. You should do so in the **<path/to/this/repo/LLMCode/utils/completion.py>** file. Here's an example of how the `get_completion_openai` function is defined:
 
     ```python
     import openai
@@ -129,13 +129,12 @@ You have the flexibility to create your custom completion functions, even with y
             for key, value in vars(completion_params).items()
             if not key.startswith("__")
         }
-        chat_completion = openai.ChatCompletion.create(
+        return openai.ChatCompletion.create(
             messages=[{"role": "user", "content": prompt}], **params
-        )
-        return chat_completion.choices[0].message.content
+        ).choices[0].message.content
     ```
 
-    Ensure that the function you define takes only a prompt (str) as input and outputs a response (str). The remaining parameters required for the function must be defined in **<path/to/this/repo/LLMCode/cfg/completion_params.py>** and loaded in the **completion.py** script, similar to how it's done for the 'get_completion_openai' function. For naming your function, it's recommended to follow the 'get_completion_XXX' naming convention.
+    Ensure that the function you define takes only a prompt (str) as input and outputs a response (str). The remaining parameters required for the function must be defined in **<path/to/this/repo/LLMCode/cfg/completion_params.py>** and loaded in the **completion.py** script, similar to how it's done for the 'get_completion_openai' function. For naming your function, it's recommended to follow the `get_completion_XXX` naming convention. If the function is capable of generating any exceptions, they should be included in the return statement. This is crucial to ensure that the upstream functions handle the exceptions appropriately.
 
 2. Configure the 'get_completion' function you want to use in the **<path/to/this/repo/LLMCode/cfg/completion_params.py>** script.
 
