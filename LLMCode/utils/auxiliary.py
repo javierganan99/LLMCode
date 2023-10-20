@@ -1,8 +1,8 @@
 from pathlib import Path
 import shutil
 import os
-from pathlib import Path
 from threading import Event
+from tqdm import tqdm
 import LLMCode.cfg.custom_params as custom_params
 from .file_utils import (
     list_submodule_directories,
@@ -14,7 +14,6 @@ from .file_utils import (
 from .completion import get_completion
 from . import ANSI_CODE, DOC_FUNCTION, SUFFIX, LANGUAGE, TQDM_BAR_FORMAT
 from .logger import LOGGER
-from tqdm import tqdm
 
 
 def format_code(
@@ -32,7 +31,10 @@ def format_code(
         for i, l in enumerate(languages):
             if l not in DOC_FUNCTION.keys():
                 LOGGER.info(
-                    f"{ANSI_CODE['yellow']}\r⚠ Language {l} not yet supported for docummentation. The {l} scripts will not be docummented!"
+                    "%s\r⚠ Language %s not yet supported for docummentation. The %s scripts will not be docummented!",
+                    ANSI_CODE["yellow"],
+                    l,
+                    l,
                 )
                 languages_filtered.pop(i)
         # Check if the exclude folders exist, if there is an error stop the program to warn the user
@@ -44,14 +46,19 @@ def format_code(
         if exclude:
             exc_str = " ".join(exclude)
             LOGGER.info(
-                f"{ANSI_CODE['yellow']}\r⚠ Excluding the following files from the document process: {exc_str}"
+                "%s\r⚠ Excluding the following files from the document process: %s",
+                ANSI_CODE["yellow"],
+                exc_str,
             )
     elif path.is_file() and (
         (path.suffix not in SUFFIX.values())
         or LANGUAGE[path.suffix] not in DOC_FUNCTION.keys()
     ):
         LOGGER.info(
-            f"{ANSI_CODE['red']}\r❌ The script {path} can not be documented. Programming language with extension {path.suffix} not supported."
+            "%s\r❌ The script %s can not be documented. Programming language with extension %s not supported.",
+            ANSI_CODE["red"],
+            str(path),
+            path.suffix,
         )
         return None
     new_path = (
@@ -94,7 +101,10 @@ def _apply_to_scripts(
         files = [py_file.resolve() for py_file in root_path.glob(f"**/*{extension}")]
         if not files:
             LOGGER.info(
-                f"{ANSI_CODE['yellow']}\r⚠ No scripts were found for {LANGUAGE[extension]} in the folder {root_path}"
+                "%s\r⚠ No scripts were found for %s in the folder %s",
+                ANSI_CODE["yellow"],
+                LANGUAGE[extension],
+                str(root_path),
             )
             return None
         files = [
@@ -129,7 +139,9 @@ def _apply_to_scripts(
             function_to_execute(c_file, stop_flag=stop_flag, *args, **kwargs)
             if stop_flag.is_set():
                 LOGGER.info(
-                    f"{ANSI_CODE['yellow']}\r Terminated by user. Program was documenting script {c_file}"
+                    "%s\r Terminated by user. Program was documenting script %s",
+                    ANSI_CODE["yellow"],
+                    str(c_file),
                 )
                 break
         pbar.close()

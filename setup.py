@@ -1,5 +1,5 @@
-from setuptools import setup
 from pathlib import Path
+from setuptools import setup
 
 # Settings
 FILE = Path(__file__).resolve()
@@ -27,7 +27,7 @@ setup(
     + [
         str(x) for x in Path("LLMCode").rglob("*/") if x.is_dir() and "__" not in str(x)
     ],
-    package_data={"": ["*.yaml"], "": ["*.txt"]},
+    package_data={"config_files": ["*.yaml"], "prompts": ["*.txt"]},
     include_package_data=True,
     install_requires=parse_requirements(PARENT / "requirements.txt"),
     keywords="deep-learning, Large Language Models, LLM, Programming",

@@ -12,6 +12,7 @@ ANSI_CODE = {
     "reset": "\u001b[0m",
 }
 TQDM_BAR_FORMAT = "{desc}: {percentage:3.0f}%|{bar:20}| {n_fmt}/{total_fmt} [{elapsed}]"
+
 from .document import doc_python_file
 from ..cfg.custom_params import document_prompts
 

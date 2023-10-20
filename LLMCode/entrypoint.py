@@ -2,14 +2,15 @@ import sys
 import argparse
 import signal
 from threading import Event
+from LLMCode.cfg.custom_params import exclude, languages, elements2doc
 from .utils.logger import LOGGER
 from .utils.auxiliary import format_code
-from LLMCode.cfg.custom_params import exclude, languages, elements2doc
 
 
 def parse_args():
     parser = argparse.ArgumentParser(
-        description="The first param is the path to format but with no name. You can add the --exclude param to exclude some dirs or files"
+        description="The first param is the path to format but with no name. \
+            You can add the --exclude param to exclude some dirs or files"
     )
     parser.add_argument("path", nargs="?", default=None, help="Unnamed parameter")
     parser.add_argument(
@@ -47,7 +48,8 @@ def main():
     args = parse_args()
     if args.path is None:
         LOGGER.info(
-            "Missing path to format: Please provide the path to be documented. It can be an script or a folder containing scripts at any level."
+            "Missing path to format: Please provide the path to be documented. \
+            It can be an script or a folder containing scripts at any level."
         )
         sys.exit(0)
     format_code(
