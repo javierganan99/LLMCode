@@ -1,11 +1,11 @@
 import shutil
 import subprocess
-from pathlib import Path
-from . import ANSI_CODE, SUFFIX
 from tokenize import tokenize
 from token import tok_name
 import os
 import platform
+from pathlib import Path
+from . import ANSI_CODE, SUFFIX
 from .logger import LOGGER
 
 
@@ -15,7 +15,7 @@ def parse_python(fn):
         toks = list(tokenize(fp.readline))
         for tok in toks:
             if tok_name[tok.type] == "ERRORTOKEN":
-                raise Exception(
+                raise ValueError(
                     f"{ANSI_CODE['red']}\r❌ Check the script {fn}. It contains errors."
                 )
     except Exception as e:
@@ -129,15 +129,15 @@ def list_submodule_directories(project_directory):
         for line in output_lines:
             try:
                 _, submodule_path, _ = line.split()
-            except:
+            except ValueError:  # TODO: Check error type
                 LOGGER.info(
-                    f"{ANSI_CODE['reset']}\rNo git submodules found in the project"
+                    "%s\rNo git submodules found in the project", ANSI_CODE["reset"]
                 )
                 return submodule_directories
             submodule_name = Path(submodule_path).name
             submodule_directories.append(submodule_name)
-    except subprocess.CalledProcessError as e:
-        LOGGER.info(f"{ANSI_CODE['reset']}\rNo git submodules found in the project")
+    except subprocess.CalledProcessError:
+        LOGGER.info("%s\rNo git submodules found in the project", ANSI_CODE["reset"])
     return submodule_directories
 
 
@@ -161,24 +161,29 @@ def copy_path(path, add_to_parent="_formatted"):
         try:
             shutil.copy(path, formatted_path)
             LOGGER.info(
-                f"{ANSI_CODE['reset']}\rFile {path.name} copied and documented version is to be created: {formatted_base_name}"
+                "%s\rFile %s copied and documented version is to be created: %s",
+                ANSI_CODE["reset"],
+                path.name,
+                formatted_base_name,
             )
-        except FileExistsError as e:
-            LOGGER.info(f"{ANSI_CODE['yellow']}\r⚠ The file {path} already exists.")
+        except FileExistsError:
+            LOGGER.info("%s\r⚠ The file {path} already exists.", ANSI_CODE["yellow"])
     elif path.is_file() and path.suffix not in SUFFIX.values():
         LOGGER.info(
-            f"{ANSI_CODE['red']}\r❌ The script {path} can not be documented. Programming language not supported yet."
+            "%s\r❌ The script {path} can not be documented. Programming language not supported yet.",
+            ANSI_CODE["red"],
         )
         return None
     elif path.is_dir():
         try:
             shutil.copytree(path, formatted_path)
             LOGGER.info(
-                f"{ANSI_CODE['reset']}\rDirectory {path.name} copied and formatted version created: {formatted_base_name}"
+                "%s\rDirectory {path.name} copied and formatted version created: {formatted_base_name}",
+                ANSI_CODE["reset"],
             )
-        except FileExistsError as e:
+        except FileExistsError:
             LOGGER.info(
-                f"{ANSI_CODE['yellow']}\r⚠ The folder {formatted_path} already exists."
+                "%s\r⚠ The folder {formatted_path} already exists.", ANSI_CODE["yellow"]
             )
     return formatted_path
 
@@ -210,4 +215,4 @@ def get_temp_folder():
     elif system_platform == "Linux" or system_platform == "Darwin":
         return "/tmp"
     else:
-        raise Exception("Unsupported operating system")
+        raise OSError("Unsupported operating system")

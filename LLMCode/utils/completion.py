@@ -1,6 +1,6 @@
+import multiprocessing
 import openai
 import LLMCode.cfg.completion_params as completion_params
-import multiprocessing
 from . import ANSI_CODE
 from .logger import LOGGER
 
@@ -17,11 +17,17 @@ def run_with_timeout(target_function, args=None, timeout=30):
     except Exception as e:
         if isinstance(e, multiprocessing.TimeoutError):
             LOGGER.info(
-                f"{ANSI_CODE['yellow']}\r⚠ The completion could not be done. {target_function} response lasted more than {timeout} seconds, which is the limit."
+                "%s\r⚠ The completion could not be done. %s response lasted more than %s seconds, which is the limit.",
+                ANSI_CODE["yellow"],
+                target_function,
+                timeout,
             )
         else:
             LOGGER.info(
-                f"{ANSI_CODE['yellow']}\r⚠ The completion could not be done. {target_function} raised the exception {e}"
+                "%s\r⚠ The completion could not be done. %s raised the exception %s",
+                ANSI_CODE["yellow"],
+                target_function,
+                e,
             )
         pool.terminate()
         return None

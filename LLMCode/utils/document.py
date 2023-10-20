@@ -1,13 +1,13 @@
+import re
+from threading import Event
+import LLMCode.cfg.custom_params as custom_params
 from .file_utils import (
     extract_functions_and_classes_from_python_tokens,
     parse_python,
     read_content,
 )
 from .completion import run_with_timeout, get_completion
-import re
-import LLMCode.cfg.custom_params as custom_params
 from . import ANSI_CODE
-from threading import Event
 from .logger import LOGGER
 
 
@@ -28,14 +28,15 @@ def doc_python_file(
     overwrite=custom_params.overwrite,
     get_completion=get_completion,
     stop_flag=Event(),
-    TODO_message=f"# TODO: Document this ELEMENT on your own. Could not be documented by the model.",
+    TODO_message="# TODO: Document this ELEMENT on your own. Could not be documented by the model.",
 ):
     script = str(script)
     try:
         parsed = parse_python(script)
         if parsed is None:
             LOGGER.info(
-                f"{ANSI_CODE['red']}\r❌Check the script {script}. It is not properly encoded and can not be documented."
+                "%s\r❌Check the script {script}. It is not properly coded and can not be documented.",
+                ANSI_CODE["red"],
             )
             return None
         (
@@ -44,7 +45,10 @@ def doc_python_file(
         ) = extract_functions_and_classes_from_python_tokens(parsed)
     except Exception as e:
         LOGGER.info(
-            f"{ANSI_CODE['red']}\r❌Check the script {script}. The following error occurred: {e}"
+            "%s\r❌Check the script %s. The following error occurred: %s",
+            ANSI_CODE["red"],
+            script,
+            e,
         )
 
     def add_msg(msg, where, element, script_content):
@@ -65,7 +69,10 @@ def doc_python_file(
                 continue
             if stop_flag.is_set():
                 LOGGER.info(
-                    f"{ANSI_CODE['yellow']}\r Ended during the documentation of script {script}. Interrupted by SIGINT.{ANSI_CODE['reset']}"
+                    "%s\r Ended during the documentation of script %s. Interrupted by SIGINT.%s",
+                    ANSI_CODE["yellow"],
+                    script,
+                    ANSI_CODE["reset"],
                 )
                 return
             if e_type == "function" or e_type == "class":
@@ -76,7 +83,10 @@ def doc_python_file(
                     ):  # If element had docstring and we do not want to change it
                         continue
                     LOGGER.info(
-                        f"{ANSI_CODE['reset']}\r\n🤖 Generating docstring for {e_type} {e_name}...\n\n"
+                        "%s\r\n🤖 Generating docstring for %s %s...\n\n",
+                        ANSI_CODE["reset"],
+                        e_type,
+                        e_name,
                     )
                 else:
                     previous_docstring = None
@@ -85,10 +95,13 @@ def doc_python_file(
                     new_docstring = re.search(r'"""(.*?)"""', result, re.DOTALL)
                     if new_docstring:
                         new_docstring = new_docstring.group(1)
-                        LOGGER.info(f"{ANSI_CODE['reset']}\r{new_docstring}\n\n\n")
+                        LOGGER.info("%s\r%s\n\n\n", ANSI_CODE["reset"], new_docstring)
                     else:
                         LOGGER.info(
-                            f"{ANSI_CODE['yellow']}\r⚠ No docstring generated for {e_type} {e_name}..."
+                            "%s\r⚠ No docstring generated for %s %s...",
+                            ANSI_CODE["yellow"],
+                            e_type,
+                            e_name,
                         )
                         script_content = add_msg(
                             TODO_message.replace("ELEMENT", e_type),
@@ -112,7 +125,10 @@ def doc_python_file(
                         )
                 else:  # Error in the query
                     LOGGER.info(
-                        f"{ANSI_CODE['red']}\r❌ Error in the query for {e_type} {e_name}! No response provided..."
+                        "%s\r❌ Error in the query for %s %s! No response provided...",
+                        ANSI_CODE["red"],
+                        e_type,
+                        e_name,
                     )
                     script_content = add_msg(
                         TODO_message.replace("ELEMENT", e_type),
