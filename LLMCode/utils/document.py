@@ -137,5 +137,5 @@ def doc_python_file(
                         script_content,
                     )
                     pass
-    with open(script, "w") as python_file:
+    with open(script, "w", encoding="utf-8") as python_file:
         python_file.write(script_content)
