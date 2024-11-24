@@ -1,0 +1,25 @@
+site_name: "LLMCode Docs"
+
+theme:
+  name: material
+  logo: assets/book_logo.png
+  favicon: assets/book_logo.png
+
+plugins:
+  - search
+  - autorefs:
+      resolve_closest: true
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_root_toc_entry: false
+
+nav:
+  - Home: index.md
+
+  - Installation: installation.md
+  - Usage: usage.md
+  - Customization: customization.md
+
+  # - Reference:

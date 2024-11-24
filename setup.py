@@ -23,9 +23,9 @@ setup(
     author="Francisco Javier Gañán",
     author_email="fjganan14@gmail.com",
     version="0.1",
-    packages=["LLMCode"]
+    packages=["llmcode"]
     + [
-        str(x) for x in Path("LLMCode").rglob("*/") if x.is_dir() and "__" not in str(x)
+        str(x) for x in Path("llmcode").rglob("*/") if x.is_dir() and "__" not in str(x)
     ],
     package_data={"config_files": ["*.yaml"], "prompts": ["*.txt"]},
     include_package_data=True,
@@ -33,7 +33,7 @@ setup(
     keywords="deep-learning, Large Language Models, LLM, Programming",
     entry_points={
         "console_scripts": [
-            "docu = LLMCode.entrypoint:main",
+            "docu = llmcode.entrypoint:main",
         ],
     },
 )

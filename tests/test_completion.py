@@ -1,6 +1,5 @@
-import pytest
 import time
-from LLMCode.utils import completion
+from llmcode.utils import completion
 
 
 def example_function(sleep_time):

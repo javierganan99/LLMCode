@@ -1,7 +1,7 @@
-import pytest
 import os
-from LLMCode.utils import auxiliary
-from LLMCode.utils.auxiliary import _apply_to_scripts
+import pytest
+from llmcode.utils import auxiliary
+from llmcode.utils.auxiliary import _apply_to_scripts
 
 
 def test_format_code(good_example_python_file):

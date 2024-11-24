@@ -1,3 +1,24 @@
+"""
+This module provides utility functions for file operations and code parsing.
+
+It includes functions to parse Python scripts, extract functions and classes,
+manage file and directory operations, and handle git submodules.
+
+Functions:
+    parse_python: Parses a Python file and returns its tokens.
+    extract_functions_and_classes_from_python_tokens: Extracts functions and
+        classes from Python tokens.
+    read_content: Reads the content of a file.
+    list_submodule_directories: Lists git submodule directories in a project.
+    is_file_in_directory: Checks if a file or directory exists within a given directory.
+    copy_path: Copies a file or directory to a new location with a modified name.
+    ensure_folder_exist: Ensures that a folder exists, creating it if necessary.
+    get_temp_folder: Returns the path to the system's temporary folder.
+
+Author: Francisco Javier Gañán
+License File: https://github.com/javierganan99/LLMCode/blob/main/LICENSE
+"""
+
 import shutil
 import subprocess
 from tokenize import tokenize
@@ -19,7 +40,7 @@ def parse_python(fn):
                     f"{ANSI_CODE['red']}\r❌ Check the script {fn}. It contains errors."
                 )
     except Exception as e:
-        raise Exception("Script could not be tokenized") from e
+        raise ValueError("Script could not be tokenized") from e
     finally:
         fp.close()
     toks.pop(0)
@@ -154,7 +175,9 @@ def is_file_in_directory(directory, name):
 def copy_path(path, add_to_parent="_formatted"):
     path = Path(path).resolve()
     if not path.exists():
-        raise FileNotFoundError(f"{ANSI_CODE['red']}\r❌Error: '{path}' does not exist.")
+        raise FileNotFoundError(
+            f"{ANSI_CODE['red']}\r❌Error: '{path}' does not exist."
+        )
     formatted_base_name = f"{path.stem}{add_to_parent}{path.suffix}"
     formatted_path = path.parent / formatted_base_name
     if path.is_file() and path.suffix in SUFFIX.values():

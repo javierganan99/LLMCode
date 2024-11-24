@@ -17,8 +17,8 @@ DOCSTRING FORMAT:
 		...
 
 	Returns:
-		type: Description of the return param.
+		(type): Description of the return param.
 	"""
 
 I want you to generate as output only the docstring (in the specified format) and between triple quotes, without more text.
-The output is intended to be copied directly to a code script.
+The output is intended to be copied directly to a code script. The (type) in the return section must be between parentheses.

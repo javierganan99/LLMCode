@@ -1,8 +1,25 @@
+"""
+This module serves as the entry point for the LLMCode tool. It parses
+command-line arguments to determine the path to format, any directories or files
+to exclude, the programming languages to include, and the elements to document.
+It also handles the option to overwrite existing docstrings.
+
+Options:
+    path            The path to the script or folder to be documented.
+    --exclude       Exclude specific files or folders from the path.
+    --languages     Specify programming languages to include.
+    --elements2doc  Specify elements to document.
+    --overwrite     Overwrite existing docstrings if present.
+
+Author: Francisco Javier Gañán
+License File: https://github.com/javierganan99/LLMCode/blob/main/LICENSE
+"""
+
 import sys
 import argparse
 import signal
 from threading import Event
-from LLMCode.cfg.custom_params import exclude, languages, elements2doc
+from llmcode.cfg.custom_params import exclude, languages, elements2doc
 from .utils.logger import LOGGER
 from .utils.auxiliary import format_code
 
@@ -40,10 +57,10 @@ def parse_args():
 
 
 def main():
-    def crtlC_handler(sig, frame):
+    def crtl_c_handler(sig, frame):
         stop_flag.set()
 
-    signal.signal(signal.SIGINT, crtlC_handler)
+    signal.signal(signal.SIGINT, crtl_c_handler)
     stop_flag = Event()
     args = parse_args()
     if args.path is None:

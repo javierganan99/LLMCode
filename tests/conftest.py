@@ -1,8 +1,8 @@
-import pytest
-from pathlib import Path
 import os
-from LLMCode.utils import completion
-from LLMCode.cfg import custom_params
+from pathlib import Path
+import pytest
+from llmcode.utils import completion
+from llmcode.cfg import custom_params
 
 
 @pytest.fixture

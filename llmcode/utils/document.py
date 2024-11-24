@@ -1,6 +1,20 @@
+"""
+This module provides functionality for documenting Python scripts.
+
+It includes functions to parse Python scripts, extract classes and functions,
+and generate or update docstrings using a completion model.
+
+Functions:
+    doc_element: Generates a docstring for a given element using a completion model.
+    doc_python_file: Documents a Python file by generating or updating docstrings for its elements.
+
+Author: Francisco Javier Gañán
+License File: https://github.com/javierganan99/LLMCode/blob/main/LICENSE
+"""
+
 import re
 from threading import Event
-import LLMCode.cfg.custom_params as custom_params
+import llmcode.cfg.custom_params as custom_params
 from .file_utils import (
     extract_functions_and_classes_from_python_tokens,
     parse_python,
@@ -136,6 +150,5 @@ def doc_python_file(
                         element,
                         script_content,
                     )
-                    pass
     with open(script, "w", encoding="utf-8") as python_file:
         python_file.write(script_content)

@@ -1,13 +1,12 @@
-import pytest
-from LLMCode.utils import document
-from LLMCode.cfg.custom_params import document_prompts
-from LLMCode.utils.completion import get_completion_openai
-from LLMCode.utils import completion
-from LLMCode.utils.file_utils import read_content
 import shutil
 import os
 import re
 import inspect
+from llmcode.utils import document
+from llmcode.cfg.custom_params import document_prompts
+from llmcode.utils.completion import get_completion_openai
+from llmcode.utils import completion
+from llmcode.utils.file_utils import read_content
 
 
 def find_functions_in_module(module, match):

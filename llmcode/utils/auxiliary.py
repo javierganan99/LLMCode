@@ -1,9 +1,23 @@
+"""
+This module provides utilities for formatting and documenting code files.
+
+It includes functions to format code files, apply documentation functions based on
+programming languages, and manage temporary file operations during the documentation process.
+
+Functions:
+    format_code: Formats and documents code files in the specified path.
+    _apply_to_scripts: Applies a given function to scripts in a directory, handling temporary files.
+
+Author: Francisco Javier Gañán
+License File: https://github.com/javierganan99/LLMCode/blob/main/LICENSE
+"""
+
 from pathlib import Path
 import shutil
 import os
 from threading import Event
 from tqdm import tqdm
-import LLMCode.cfg.custom_params as custom_params
+import llmcode.cfg.custom_params as custom_params
 from .file_utils import (
     list_submodule_directories,
     is_file_in_directory,
@@ -71,9 +85,11 @@ def format_code(
             break
         _apply_to_scripts(
             new_path,
-            DOC_FUNCTION[l]["function"]
-            if path.is_dir()
-            else DOC_FUNCTION[LANGUAGE[path.suffix]]["function"],
+            (
+                DOC_FUNCTION[l]["function"]
+                if path.is_dir()
+                else DOC_FUNCTION[LANGUAGE[path.suffix]]["function"]
+            ),
             extension=SUFFIX[l] if path.is_dir() else path.suffix,
             exclude=exclude,
             stop_flag=stop_flag,

@@ -1,6 +1,6 @@
 from pathlib import Path
 from pathlib import Path
-import LLMCode.cfg.custom_params as custom_params
+import llmcode.cfg.custom_params as custom_params
 from .file_utils import (
     list_submodule_directories,
     is_file_in_directory,

@@ -1,6 +1,20 @@
+"""
+This module handles the completion functionality using an LLM API.
+
+It provides functions to execute tasks with a timeout and to obtain completions
+from LLM APIs based on specified parameters.
+
+Functions:
+    run_with_timeout: Executes a function with a specified timeout.
+    get_completion_openai: Retrieves a completion from the OpenAI API using a prompt.
+
+Author: Francisco Javier Gañán
+License File: https://github.com/javierganan99/LLMCode/blob/main/LICENSE
+"""
+
 import threading
 import openai
-import LLMCode.cfg.completion_params as completion_params
+import llmcode.cfg.completion_params as completion_params
 from . import ANSI_CODE
 from .logger import LOGGER
 
