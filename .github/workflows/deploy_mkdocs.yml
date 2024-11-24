@@ -3,7 +3,7 @@ name: Deploy MkDocs Documentation
 on:
   push:
     branches:
-      - main # Trigger workflow on push to the main branch
+      - main # Trigger workflow on push to the main
 
 jobs:
   deploy:
