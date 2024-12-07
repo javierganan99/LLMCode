@@ -7,13 +7,23 @@ theme:
 
 plugins:
   - search
-  - autorefs:
-      resolve_closest: true
   - mkdocstrings:
+      default_handler: python
       handlers:
         python:
           options:
-            show_root_toc_entry: false
+            docstring_options:
+              ignore_init_summary: true
+            merge_init_into_class: true
+            docstring_style: google
+            show_root_heading: true
+            show_source: true
+            separate_signature: true
+            line_length: 80
+            show_signature_annotations: true
+            show_symbol_type_heading: true
+            show_symbol_type_toc: true
+            show_inheritance_diagram: true
 
 nav:
   - Home: index.md
@@ -22,4 +32,11 @@ nav:
   - Usage: usage.md
   - Customization: customization.md
 
-  # - Reference:
+  - Reference:
+      - Entrypoint: reference/entrypoint.md
+      - Utils:
+          - Auxiliary: reference/utils/auxiliary.md
+          - Completion: reference/utils/completion.md
+          - Document: reference/utils/document.md
+          - File_utils: reference/utils/file_utils.md
+          - Logger: reference/utils/logger.md
