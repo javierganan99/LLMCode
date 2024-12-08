@@ -27,6 +27,7 @@ LOGGING_NAME = "LLMCode"
 
 
 def set_logging(name=LOGGING_NAME, verbose=True):
+    # TODO: Document this function on your own. Could not be documented by the model.
     rank = int(os.getenv("RANK", -1))  # rank in world for Multi-GPU
     level = logging.INFO if verbose and rank in {-1, 0} else logging.ERROR
     logging.config.dictConfig(

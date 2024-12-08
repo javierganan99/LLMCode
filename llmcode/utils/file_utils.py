@@ -31,6 +31,20 @@ from .logger import LOGGER
 
 
 def parse_python(fn):
+    """
+    Parses a Python script and returns its tokens.
+
+    This function opens a Python script file, reads its content, and tokenizes it using
+    the tokenize module. It checks for any errors in the script and raises an exception
+    if any error tokens are found. The function ensures that the file is closed properly
+    after reading.
+
+    Args:
+        fn (str): The path to the Python script file to be parsed.
+
+    Returns:
+        (list): A list of tokens parsed from the script.
+    """
     fp = open(fn, mode="rb")
     try:
         toks = list(tokenize(fp.readline))
@@ -48,6 +62,27 @@ def parse_python(fn):
 
 
 def extract_functions_and_classes_from_python_tokens(tokens):
+    """
+    Extract functions and classes from tokenized Python code.
+
+    This function processes a list of tokens representing a Python script and extracts
+    the definitions of functions and classes along with their associated docstrings.
+    It handles indentation levels to accurately determine the boundaries of each
+    extracted element.
+
+    Args:
+        tokens (list of tuple): A list of tokenized elements, where each element is a
+                                tuple containing the token type and additional
+                                information.
+
+    Returns:
+        (tuple): A tuple containing two elements:
+            - (dict): A dictionary with keys "class" and "function", each mapping to a
+                      list of tuples containing the source code of the functions or
+                      classes and their names, as well as the position of their
+                      docstrings.
+            - (str): The reconstructed Python code as a string.
+    """
     python_code = ""  # To store the code of the original Python file
     current_row = 0
     current_column = 0
@@ -127,11 +162,39 @@ def extract_functions_and_classes_from_python_tokens(tokens):
 
 
 def read_content(file_path):
+    """
+    Reads the content of a text file.
+
+    This function opens a specified file in read mode and returns its entire content as a string.
+    It is important to ensure that the file exists and is accessible to avoid exceptions.
+
+    Args:
+        file_path (str): The path to the file to be read.
+
+    Returns:
+        (str): The content of the file as a string.
+    """
     with open(file_path, "r") as file:
         return file.read()
 
 
 def list_submodule_directories(project_directory):
+    """
+    Retrieves a list of submodule directory names from a specified Git project.
+
+    This function executes the "git submodule status" command to fetch the status
+    of submodules in a Git repository located at the specified project directory.
+    It then processes the output to extract the names of the subdirectories that
+    contain these submodules.
+
+    Args:
+        project_directory (str): The path to the Git project directory where
+        submodules are to be checked.
+
+    Returns:
+        (list): A list of submodule directory names. If no submodules are found, an
+            empty list is returned.
+    """
     project_directory = Path(project_directory)
     submodule_directories = []
     try:
@@ -163,6 +226,20 @@ def list_submodule_directories(project_directory):
 
 
 def is_file_in_directory(directory, name):
+    """
+    Checks if a file or directory with a specified name exists within a given directory.
+
+    This function traverses the specified directory and all its subdirectories to search
+    for a file or directory that matches the provided name. It returns True if a match is found,
+    otherwise it returns False.
+
+    Args:
+        directory (str or Path): The path to the directory to search in.
+        name (str): The name of the file or directory to look for.
+
+    Returns:
+        (bool): True if the file or directory exists in the directory, False otherwise.
+    """
     directory = Path(directory)
     for item in directory.glob("**/*"):
         if item.is_dir() and item.name == name:
@@ -173,6 +250,23 @@ def is_file_in_directory(directory, name):
 
 
 def copy_path(path, add_to_parent="_formatted"):
+    """
+    Copies a file or directory to a new formatted path and creates a documented version if applicable.
+
+    This function checks if the specified path exists and determines if it is a file or directory.
+    If it is a file with a supported suffix, it copies the file to a new location, appending a
+    specified string to the base filename. If the path points to a directory, it copies the
+    directory and maintains the new formatted name. Error messages are logged for non-existent
+    paths, files that cannot be documented, and existing paths.
+
+    Args:
+        path (str or Path): The path of the file or directory to copy.
+        add_to_parent (str, optional): The string to append to the base name for the formatted file
+            or directory (default is '_formatted').
+
+    Returns:
+        (Path): The path of the newly created formatted file or directory.
+    """
     path = Path(path).resolve()
     if not path.exists():
         raise FileNotFoundError(
@@ -212,6 +306,19 @@ def copy_path(path, add_to_parent="_formatted"):
 
 
 def ensure_folder_exist(path):
+    """
+    Ensure that a folder path exists by creating any missing directories.
+
+    This function takes a path as input, checks each segment of the path, and
+    creates any directories that do not already exist. It supports both absolute
+    and relative paths.
+
+    Args:
+        path (str): The path of the directory to ensure exists.
+
+    Returns:
+        (bool): True if the directory already existed, False if it was created.
+    """
     path = str(path)
     separated = path.split(os.path.sep)
     # To consider absolute paths
@@ -232,6 +339,17 @@ def ensure_folder_exist(path):
 
 
 def get_temp_folder():
+    """
+    Retrieves the path to the temporary folder based on the operating system.
+
+    This function checks the platform on which Python is running and returns the appropriate
+    path for the temporary folder. For Windows, it uses the TEMP environment variable. For
+    Linux and macOS (Darwin), it returns the standard "/tmp" directory. If the operating
+    system is not recognized, it raises an OSError.
+
+    Returns:
+        (str): The path to the temporary folder.
+    """
     system_platform = platform.system()
     if system_platform == "Windows":
         return os.environ["TEMP"]

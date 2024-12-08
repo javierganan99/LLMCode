@@ -25,6 +25,25 @@ from .utils.auxiliary import format_code
 
 
 def parse_args():
+    """
+    Parses command-line arguments for the script.
+
+    This function sets up an argument parser to handle the input parameters
+    required for the script execution. It allows the user to specify a path,
+    exclude certain files or directories, choose programming languages,
+    identify elements to document, and decide whether to overwrite existing
+    docstrings.
+
+    Args:
+        path (str, optional): The path to format without a name (default is None).
+        --exclude (str, optional): A list of files or folders to exclude (default is exclude).
+        --languages (str, optional): A list of programming languages to include (default is languages).
+        --elements2doc (str, optional): A list of elements to document (default is elements2doc).
+        --overwrite (bool, optional): Whether to overwrite the current docstrings (default is False).
+
+    Returns:
+        Namespace: An object containing the parsed arguments as attributes.
+    """
     parser = argparse.ArgumentParser(
         description="The first param is the path to format but with no name. \
             You can add the --exclude param to exclude some dirs or files"
@@ -57,6 +76,14 @@ def parse_args():
 
 
 def main():
+    """
+    Main function to initiate the formatting process for scripts or folders.
+
+    This function sets up a signal handler for interrupt signals (SIGINT) to gracefully stop the operation
+    when requested. It checks for the required path argument, and if missing, logs an informative message
+    and exits. It then calls the `format_code` function with the appropriate parameters.
+    """
+
     def crtl_c_handler(sig, frame):
         stop_flag.set()
 

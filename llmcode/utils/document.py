@@ -26,6 +26,22 @@ from .logger import LOGGER
 
 
 def doc_element(element, prompt, get_completion):
+    """
+    Processes a specific element by generating a completion based on a provided prompt.
+
+    This function utilizes a completion generator, replaces a specific key in the prompt with
+    the given element, and executes the generation process within a specified timeout limit.
+
+    Args:
+        element (str): The specific element to be processed and substituted in the prompt.
+        prompt (str): The prompt template that includes a placeholder for the element.
+        get_completion (callable): A function responsible for generating the completion based
+            on the modified prompt.
+
+    Returns:
+        (any): The result of the completion generation, which can vary depending on the
+        implementation of the get_completion function.
+    """
     return run_with_timeout(
         get_completion,
         args=(
@@ -44,6 +60,26 @@ def doc_python_file(
     stop_flag=Event(),
     TODO_message="# TODO: Document this ELEMENT on your own. Could not be documented by the model.",
 ):
+    """
+    Documents Python files by generating docstrings for classes and functions.
+
+    This function parses a given Python script, extracts the defined classes and functions, and generates docstrings
+    for them using specified prompts and a completion function. It also handles existing docstrings based on the
+    overwrite parameter and can stop the documentation process if triggered.
+
+    Args:
+        script (str): The path to the Python script file to be documented.
+        prompts (dict): A dictionary with the prompts to be used for generating docstrings.
+        elements2doc (list, optional): A list of elements (classes or functions) to document. Defaults to
+            custom_params.elements2doc.
+        overwrite (bool, optional): Flag indicating whether to overwrite existing docstrings. Defaults to
+            custom_params.overwrite.
+        get_completion (callable, optional): A function to get the completion responses. Defaults to get_completion.
+        stop_flag (Event, optional): An event flag to signal stopping the documentation process. Defaults to
+            Event().
+        TODO_message (str, optional): Message template to indicate that an element could not be documented.
+            Defaults to "# TODO: Document this ELEMENT on your own. Could not be documented by the model."
+    """
     script = str(script)
     try:
         parsed = parse_python(script)

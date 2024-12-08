@@ -8,6 +8,18 @@ README = (PARENT / "README.md").read_text(encoding="utf-8")
 
 
 def parse_requirements(file_path: Path):
+    """
+Parses a requirements file and returns a list of requirements.
+
+This function reads a given requirements file, processes each line to ignore comments and empty lines, 
+and returns a list of requirement strings.
+
+Args:
+    file_path (Path): The path to the requirements file.
+
+Returns:
+    (list): A list of requirement strings, with comments and empty lines removed.
+"""
     requirements = []
     for line in Path(file_path).read_text().splitlines():
         line = line.strip()

@@ -38,6 +38,25 @@ def format_code(
     overwrite=custom_params.overwrite,
     stop_flag=Event(),
 ):
+    """
+    Formats code files by applying specific documentation functions based on language.
+
+    This function processes either a directory or a specific code file, excluding specified files
+    from documentation generation, and applies predefined functions according to the code's language.
+    It validates the input path, checks supported languages, and logs relevant information during the
+    process. If the path is a directory, it applies the functions to all relevant scripts within.
+
+    Args:
+        path (str): The path to the directory or file to be formatted.
+        exclude (list, optional): List of filenames or folders to exclude from documentation (default is custom_params.exclude).
+        languages (list, optional): List of programming languages to apply for documentation (default is custom_params.languages).
+        elements2doc (list, optional): List of specific elements to document (default is custom_params.elements2doc).
+        overwrite (bool, optional): Flag indicating whether to overwrite existing documentation (default is custom_params.overwrite).
+        stop_flag (Event, optional): A threading event to signal when to stop the process (default is Event()).
+
+    Returns:
+        (bool): True if the formatting process was successful, False otherwise.
+    """
     languages_filtered = languages.copy()
     path = Path(path)
     assert path.exists(), f"{ANSI_CODE['red']}\r❌ {path} does not exist."
@@ -112,6 +131,25 @@ def _apply_to_scripts(
     *args,
     **kwargs,
 ):
+    """
+    Applies a specified function to all scripts in a given directory with a specified extension.
+
+    This function searches the provided directory (and its subdirectories) for files that match the given
+    extension. It allows for exclusion of specific files and applies a provided function to each of the
+    found files, handling temporary file creation and cleanup.
+
+    Args:
+        root_path (str): The root directory path where the scripts are located.
+        function_to_execute (callable): The function to execute on each found script.
+        extension (str): The file extension of the scripts to process.
+        exclude (list): A list of substrings; files containing any of these will be excluded from processing.
+        stop_flag (Event, optional): A flag to signal cessation of the function execution (default is Event()).
+        *args: Additional positional arguments to be passed to the function.
+        **kwargs: Additional keyword arguments to be passed to the function.
+
+    Returns:
+        (bool): True if the operation was successful, otherwise None.
+    """
     root_path = Path(root_path).resolve()
     if root_path.is_dir():
         files = [py_file.resolve() for py_file in root_path.glob(f"**/*{extension}")]
